@@ -3,33 +3,41 @@
 
 <head>
 
+<!-- Configuración básica del documento -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>CrepasVibes</title>
 
+<!-- Bootstrap (diseño responsive y componentes) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- Font Awesome (íconos) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+<!-- CSS propio -->
 <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
+<!-- NAVBAR (menú principal del sistema) -->
 <nav class="navbar navbar-expand-lg navbar-dark">
 
 <div class="container">
 
+<!-- LOGO DEL SISTEMA -->
 <a class="navbar-brand fw-bold" href="#">
 
-<i class="fa-solid fa-cookie-bite"></i>
+<!-- Ícono  para comida -->
+<i class="fa-solid fa-utensils"></i>
 
 CrepasVibes
 
 </a>
 
+<!-- Botón hamburguesa (responsive móvil) -->
 <button
 class="navbar-toggler"
 type="button"
@@ -40,58 +48,44 @@ data-bs-target="#menu">
 
 </button>
 
+<!-- MENÚ DE NAVEGACIÓN -->
 <div class="collapse navbar-collapse" id="menu">
 
 <ul class="navbar-nav ms-auto">
 
+<!-- Inicio -->
 <li class="nav-item">
-
-<a class="nav-link active" href="#">
-
-Inicio
-
-</a>
-
+<a class="nav-link active" href="#">Inicio</a>
 </li>
 
+<!-- Catálogo -->
 <li class="nav-item">
-
-<a class="nav-link" href="#">
-
-Catálogo
-
-</a>
-
+<a class="nav-link" href="#">Catálogo</a>
 </li>
 
+<!-- Pedidos -->
 <li class="nav-item">
-
-<a class="nav-link" href="#">
-
-Pedidos
-
-</a>
-
+<a class="nav-link" href="#">Pedidos</a>
 </li>
 
+<!-- Entrega -->
 <li class="nav-item">
-
-<a class="nav-link" href="#">
-
-Entrega
-
-</a>
-
+<a class="nav-link" href="#">Entrega</a>
 </li>
 
+<!-- MÓDULO: PRODUCTOS -->
 <li class="nav-item">
+<a class="nav-link" href="productos.html">Productos</a>
+</li>
 
-<a class="nav-link" href="#">
+<!-- MÓDULO: INGREDIENTES -->
+<li class="nav-item">
+<a class="nav-link" href="ingredientes.html">Ingredientes</a>
+</li>
 
-Cuenta
-
-</a>
-
+<!-- Cuenta -->
+<li class="nav-item">
+<a class="nav-link" href="#">Cuenta</a>
 </li>
 
 </ul>
@@ -102,6 +96,7 @@ Cuenta
 
 </nav>
 
+<!-- HERO (portada principal) -->
 <section class="hero">
 
 <div class="container">
@@ -109,123 +104,79 @@ Cuenta
 <h1>CrepasVibes</h1>
 
 <p>
-
 Sistema web para la gestión de pedidos y catálogo de crepas dulces.
-
 </p>
 
 <a href="#" class="btn btn-warning btn-lg">
-
 Ver Catálogo
-
 </a>
 
 </div>
 
 </section>
 
+<!-- SECCIÓN SERVICIOS -->
 <section class="container py-5">
 
 <div class="text-center mb-5">
 
-<h2>
-
-Nuestros Servicios
-
-</h2>
+<h2>Nuestros Servicios</h2>
 
 <p>
-
 La plataforma permite gestionar pedidos, catálogo y entregas de forma sencilla.
-
 </p>
 
 </div>
 
 <div class="row g-4">
 
+<!-- Servicio 1 -->
 <div class="col-md-4">
-
 <div class="card shadow h-100">
-
 <div class="card-body text-center">
 
 <i class="fa-solid fa-utensils fa-3x mb-3"></i>
 
-<h4>
-
-Catálogo
-
-</h4>
-
-<p>
-
-Visualiza todas las crepas disponibles y consulta sus precios.
-
-</p>
+<h4>Catálogo</h4>
+<p>Visualiza todas las crepas disponibles y consulta sus precios.</p>
 
 </div>
-
+</div>
 </div>
 
-</div>
-
+<!-- Servicio 2 -->
 <div class="col-md-4">
-
 <div class="card shadow h-100">
-
 <div class="card-body text-center">
 
 <i class="fa-solid fa-cart-shopping fa-3x mb-3"></i>
 
-<h4>
-
-Pedidos
-
-</h4>
-
-<p>
-
-Realiza pedidos de forma rápida y segura desde cualquier dispositivo.
-
-</p>
+<h4>Pedidos</h4>
+<p>Realiza pedidos de forma rápida y segura desde cualquier dispositivo.</p>
 
 </div>
-
+</div>
 </div>
 
-</div>
-
+<!-- Servicio 3 -->
 <div class="col-md-4">
-
 <div class="card shadow h-100">
-
 <div class="card-body text-center">
 
 <i class="fa-solid fa-truck fa-3x mb-3"></i>
 
-<h4>
-
-Entrega
-
-</h4>
-
-<p>
-
-Consulta el estado de entrega y seguimiento de cada pedido.
-
-</p>
+<h4>Entrega</h4>
+<p>Consulta el estado de entrega y seguimiento de cada pedido.</p>
 
 </div>
-
 </div>
-
 </div>
 
 </div>
 
 </section>
 
+<!-- SECCIÓN IMAGEN + TEXTO -->
 <section class="container py-5">
 
 <div class="row">
@@ -242,21 +193,12 @@ alt="Crepas">
 <div class="col-md-6 d-flex align-items-center">
 
 <div>
-   
 
-
-<h2>
-
-¿Por qué elegir CrepasVibes?
-
-</h2>
+<h2>¿Por qué elegir CrepasVibes?</h2>
 
 <p>
-
 CrepasVibes es una plataforma desarrollada para administrar de manera eficiente los pedidos, productos, clientes y entregas de una crepería.
-
 </p>
-
 
 </div>
 
@@ -266,52 +208,43 @@ CrepasVibes es una plataforma desarrollada para administrar de manera eficiente 
 
 </section>
 
+<!-- ESTADÍSTICAS -->
 <section class="container py-5">
 
 <div class="row text-center">
 
 <div class="col-md-3">
-
 <h2>150+</h2>
-
 <p>Clientes</p>
-
 </div>
 
 <div class="col-md-3">
-
 <h2>30+</h2>
-
 <p>Productos</p>
-
 </div>
 
 <div class="col-md-3">
-
 <h2>500+</h2>
-
 <p>Pedidos</p>
-
 </div>
 
 <div class="col-md-3">
-
 <h2>98%</h2>
-
 <p>Satisfacción</p>
-
 </div>
 
 </div>
 
 </section>
 
-<footer>
+<!-- FOOTER -->
+<footer class="text-center p-3">
 
 © 2026, desarrollado por WORKGROUP para una mejor experiencia web.
 
 </footer>
 
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
