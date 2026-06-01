@@ -94,3 +94,61 @@ footer {
         font-size: 16px;
     }
 }
+
+/*Para prudctos e ingredientes*/
+.search-box {
+    max-width: 280px;
+}
+
+/*Resaltado para filas con stock por debajo del mínimo */
+.low-stock-row {
+    background-color: #fff0f0 !important;
+    border-left: 5px solid #dc3545;
+    transition: background-color 0.2s ease;
+}
+.low-stock-row:hover {
+    background-color: #ffe0e0 !important;
+}
+
+/* Ajustes responsivos para tablas */
+@media (max-width: 768px) {
+    .search-box {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .btn-sm {
+        margin-bottom: 5px;
+    }
+}
+modal-content {
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border: none;
+}
+.modal-header {
+    background-color: #f5f1e8;
+    color: #5a3e1b;
+}
+.btn-warning {
+    background-color: #b86d2c;
+    border-color: #b86d2c;
+    color: white;
+}
+.btn-warning:hover {
+    background-color: #9a551f;
+    border-color: #9a551f;
+}
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
