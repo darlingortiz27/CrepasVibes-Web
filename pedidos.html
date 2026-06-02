@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrepasVibes | Pedidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"><i class="fa-solid fa-cookie-bite"></i> CrepasVibes</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="pedidos.html">Pedidos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ingredientes.html">Ingredientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="clientes.html">Clientes</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+
+        <!-- Registro de pedidos -->
+        <div class="card shadow-sm border-0 mb-5">
+            <div class="card-header bg-white py-3">
+                <h4 class="mb-0"><i class="fa-solid fa-cart-plus" style="color: #b86d2c;"></i> Registro de pedidos</h4>
+                <small class="text-muted">Complete los datos para registrar un nuevo pedido</small>
+            </div>
+            <div class="card-body">
+                <form id="orderForm">
+                    <div class="row g-3">
+
+                        <!-- Cliente -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Cliente *</label>
+                            <select id="ordCliente" class="form-select" required>
+                                <option value="">— Seleccione cliente —</option>
+                            </select>
+                        </div>
+
+                        <!-- Producto -->
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Producto *</label>
+                            <select id="ordProducto" class="form-select" required>
+                                <option value="">— Seleccione producto —</option>
+                            </select>
+                        </div>
+
+                        <!-- Cantidad -->
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold">Cantidad *</label>
+                            <input type="number" id="ordCantidad" class="form-control" min="1" value="1" required>
+                        </div>
+
+                        <!-- Precio unitario (auto) -->
+                        <div class="col-md-2">
+                            <label class="form-label fw-semibold">Precio unit.</label>
+                            <input type="number" step="0.01" id="ordPrecio" class="form-control" placeholder="0.00"
+                                readonly>
+                        </div>
+
+                        <!-- Fecha -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Fecha *</label>
+                            <input type="date" id="ordFecha" class="form-control" required>
+                        </div>
+
+                        <!-- Estado -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Estado</label>
+                            <select id="ordEstado" class="form-select">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En preparación">En preparación</option>
+                                <option value="Listo">Listo</option>
+                                <option value="Entregado">Entregado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+
+                        <!-- Total calculado -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Total (USD)</label>
+                            <input type="text" id="ordTotal" class="form-control bg-light fw-bold" readonly
+                                placeholder="$0.00">
+                        </div>
+
+                        <!-- Notas -->
+                        <div class="col-md-9">
+                            <label class="form-label fw-semibold">Notas / Observaciones</label>
+                            <input type="text" id="ordNotas" class="form-control"
+                                placeholder="Sin azúcar, extra crema...">
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-warning px-4">
+                                <i class="fa-solid fa-save" style="color: aliceblue;"></i> Guardar pedido
+                            </button>
+                            <button type="button" id="resetOrderBtn"
+                                class="btn btn-outline-secondary ms-2">Limpiar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabla de pedidos -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <h4 class="mb-0"><i class="fa-solid fa-receipt me-2"></i> Tabla de pedidos</h4>
+                <div class="d-flex gap-2 flex-wrap">
+                    <select id="filterEstado" class="form-select form-select-sm" style="width:auto;">
+                        <option value="">Todos los estados</option>
+                        <option>Pendiente</option>
+                        <option>En preparación</option>
+                        <option>Listo</option>
+                        <option>Entregado</option>
+                        <option>Cancelado</option>
+                    </select>
+                    <input type="text" id="searchOrderInput" class="form-control form-control-sm"
+                        placeholder="Buscar cliente o producto..." style="min-width:200px;">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Producto</th>
+                                <th>Cant.</th>
+                                <th>Total</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Notas</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                            <tr>
+                                <td colspan="9" class="text-center py-4">Cargando......</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-light small d-flex justify-content-between">
+                <span><i class="fa-solid fa-database"></i> Datos locales</span>
+                <span id="orderCountInfo">0 pedidos | Total: $0.00</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Editar Pedido -->
+    <div class="modal fade" id="editOrderModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning-subtle">
+                    <h5 class="modal-title"><i class="fa-solid fa-pen"></i> Editar pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editOrdId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label>Cliente</label>
+                            <select id="editOrdCliente" class="form-select"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Producto</label>
+                            <select id="editOrdProducto" class="form-select"></select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Cantidad</label>
+                            <input type="number" id="editOrdCantidad" class="form-control" min="1">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Precio unit.</label>
+                            <input type="number" step="0.01" id="editOrdPrecio" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Total</label>
+                            <input type="text" id="editOrdTotal" class="form-control bg-light fw-bold" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Fecha</label>
+                            <input type="date" id="editOrdFecha" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Estado</label>
+                            <select id="editOrdEstado" class="form-select">
+                                <option>Pendiente</option>
+                                <option>En preparación</option>
+                                <option>Listo</option>
+                                <option>Entregado</option>
+                                <option>Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label>Notas</label>
+                            <input type="text" id="editOrdNotas" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-warning" id="confirmEditOrder">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Eliminación -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: 2px solid #b86d2c;">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-trash-can" style="color: #b86d2c;"></i> Confirmar eliminación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="confirmModalMessage">¿Estás seguro de que deseas eliminar este elemento?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" id="confirmModalOkBtn">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const ORDERS_KEY = "crepas_pedidos";
+        const CLIENTS_KEY = "crepas_clientes";
+        const PRODUCTS_KEY = "crepas_productos";
+
+        let pedidos = [];
+        let clientes = [];
+        let productos = [];
+
+        // ── Estado → badge color ────────────────────────────────────────────
+        const estadoBadge = {
+            "Pendiente": "bg-warning text-dark",
+            "En preparación": "bg-info text-dark",
+            "Listo": "bg-primary",
+            "Entregado": "bg-success",
+            "Cancelado": "bg-danger"
+        };
+
+        // ── Carga de datos ──────────────────────────────────────────────────
+        function loadAll() {
+            const sc = localStorage.getItem(CLIENTS_KEY);
+            clientes = sc ? JSON.parse(sc) : [];
+
+            const sp = localStorage.getItem(PRODUCTS_KEY);
+            productos = sp ? JSON.parse(sp) : [];
+
+            const so = localStorage.getItem(ORDERS_KEY);
+            if (so) {
+                pedidos = JSON.parse(so);
+            } else {
+                // Datos de ejemplo solo si existen clientes y productos
+                if (clientes.length && productos.length) {
+                    const hoy = new Date().toISOString().split('T')[0];
+                    pedidos = [
+                        { id: 1, cliente_id: 1, producto_id: 1, cantidad: 2, precio_unitario: 2.00, total: 4.00, fecha: hoy, estado: "Entregado", notas: "" },
+                        { id: 2, cliente_id: 2, producto_id: 2, cantidad: 1, precio_unitario: 2.50, total: 2.50, fecha: hoy, estado: "Pendiente", notas: "Extra nutella" },
+                        { id: 3, cliente_id: 3, producto_id: 1, cantidad: 3, precio_unitario: 2.00, total: 6.00, fecha: hoy, estado: "En preparación", notas: "Sin crema" }
+                    ];
+                } else {
+                    pedidos = [];
+                }
+                localStorage.setItem(ORDERS_KEY, JSON.stringify(pedidos));
+            }
+        }
+
+        function save() { localStorage.setItem(ORDERS_KEY, JSON.stringify(pedidos)); }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+        }
+
+        // ── Selects dinámicos ────────────────────────────────────────────────
+        function fillSelects(clienteSelectId, productoSelectId, selectedClienteId, selectedProductoId) {
+            const cSel = document.getElementById(clienteSelectId);
+            const pSel = document.getElementById(productoSelectId);
+
+            cSel.innerHTML = '<option value="">— Seleccione cliente —</option>';
+            clientes.filter(c => c.activo).forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.text = c.nombre;
+                if (c.id === selectedClienteId) opt.selected = true;
+                cSel.appendChild(opt);
+            });
+
+            pSel.innerHTML = '<option value="">— Seleccione producto —</option>';
+            productos.filter(p => p.activo).forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.text = `${p.nombre} ($${p.precio_venta.toFixed(2)})`;
+                if (p.id === selectedProductoId) opt.selected = true;
+                pSel.appendChild(opt);
+            });
+        }
+
+        function getProductById(id) { return productos.find(p => p.id === parseInt(id)); }
+        function getClientById(id) { return clientes.find(c => c.id === parseInt(id)); }
+
+        // ── Auto-calculo total en formulario nuevo ───────────────────────────
+        function recalcTotal(precioId, cantidadId, totalId) {
+            const precio = parseFloat(document.getElementById(precioId).value) || 0;
+            const cantidad = parseInt(document.getElementById(cantidadId).value) || 0;
+            document.getElementById(totalId).value = `$${(precio * cantidad).toFixed(2)}`;
+        }
+
+        document.getElementById('ordProducto').addEventListener('change', function () {
+            const prod = getProductById(this.value);
+            document.getElementById('ordPrecio').value = prod ? prod.precio_venta : '';
+            recalcTotal('ordPrecio', 'ordCantidad', 'ordTotal');
+        });
+        document.getElementById('ordCantidad').addEventListener('input', () =>
+            recalcTotal('ordPrecio', 'ordCantidad', 'ordTotal')
+        );
+
+        // ── Renderizado tabla ────────────────────────────────────────────────
+        function renderOrderTable() {
+            const term = document.getElementById('searchOrderInput').value.toLowerCase();
+            const estado = document.getElementById('filterEstado').value;
+
+            let filtered = pedidos.filter(o => {
+                const cli = getClientById(o.cliente_id);
+                const prod = getProductById(o.producto_id);
+                const matchText = (cli?.nombre || '').toLowerCase().includes(term) ||
+                    (prod?.nombre || '').toLowerCase().includes(term);
+                const matchEstado = !estado || o.estado === estado;
+                return matchText && matchEstado;
+            });
+
+            const tbody = document.getElementById('orderTableBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4">No hay pedidos</td></tr>';
+                document.getElementById('orderCountInfo').innerText = '0 pedidos | Total: $0.00';
+                return;
+            }
+
+            let html = '';
+            let sumTotal = 0;
+            filtered.forEach(o => {
+                const cli = getClientById(o.cliente_id);
+                const prod = getProductById(o.producto_id);
+                const badge = estadoBadge[o.estado] || 'bg-secondary';
+                sumTotal += o.total || 0;
+                html += `<tr>
+        <td>${o.id}</td>
+        <td><strong>${escapeHtml(cli?.nombre || '(sin cliente)')}</strong></td>
+        <td>${escapeHtml(prod?.nombre || '(sin producto)')}</td>
+        <td>${o.cantidad}</td>
+        <td><strong>$${(o.total || 0).toFixed(2)}</strong></td>
+        <td>${o.fecha || '—'}</td>
+        <td><span class="badge ${badge}">${escapeHtml(o.estado)}</span></td>
+        <td><small>${escapeHtml(o.notas) || '<span class="text-muted">—</span>'}</small></td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-outline-warning edit-ord-btn" data-id="${o.id}"><i class="fa-solid fa-edit"></i> Editar</button>
+          <button class="btn btn-sm btn-outline-danger delete-ord-btn" data-id="${o.id}"><i class="fa-solid fa-trash"></i> Eliminar</button>
+        </td>
+      </tr>`;
+            });
+
+            tbody.innerHTML = html;
+            document.getElementById('orderCountInfo').innerText =
+                `${filtered.length} pedido(s) | Total: $${sumTotal.toFixed(2)}`;
+
+            document.querySelectorAll('.edit-ord-btn').forEach(btn =>
+                btn.addEventListener('click', () => openEdit(parseInt(btn.dataset.id)))
+            );
+            document.querySelectorAll('.delete-ord-btn').forEach(btn =>
+                btn.addEventListener('click', () => {
+                    confirmAction('¿Eliminar este pedido permanentemente?', () => {
+                        pedidos = pedidos.filter(o => o.id !== parseInt(btn.dataset.id));
+                        renumber(); save(); renderOrderTable();
+                    });
+                })
+            );
+        }
+
+        function renumber() { pedidos.forEach((o, i) => o.id = i + 1); }
+
+        // ── Confirmar acción ─────────────────────────────────────────────────
+        function confirmAction(message, onConfirm) {
+            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            document.getElementById('confirmModalMessage').innerText = message;
+            const okBtn = document.getElementById('confirmModalOkBtn');
+            const newOkBtn = okBtn.cloneNode(true);
+            okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+            newOkBtn.addEventListener('click', () => { onConfirm(); modal.hide(); });
+            modal.show();
+        }
+
+        // ── CRUD ─────────────────────────────────────────────────────────────
+        function addOrder(order) {
+            const newId = pedidos.length ? Math.max(...pedidos.map(o => o.id)) + 1 : 1;
+            pedidos.push({ ...order, id: newId });
+            save(); renderOrderTable();
+        }
+
+        function updateOrder(updated) {
+            const idx = pedidos.findIndex(o => o.id === updated.id);
+            if (idx !== -1) { pedidos[idx] = { ...pedidos[idx], ...updated }; save(); renderOrderTable(); }
+        }
+
+        function openEdit(id) {
+            const o = pedidos.find(o => o.id === id);
+            if (!o) return;
+            fillSelects('editOrdCliente', 'editOrdProducto', o.cliente_id, o.producto_id);
+            document.getElementById('editOrdId').value = o.id;
+            document.getElementById('editOrdCantidad').value = o.cantidad;
+            document.getElementById('editOrdPrecio').value = o.precio_unitario;
+            document.getElementById('editOrdTotal').value = `$${o.total.toFixed(2)}`;
+            document.getElementById('editOrdFecha').value = o.fecha;
+            document.getElementById('editOrdEstado').value = o.estado;
+            document.getElementById('editOrdNotas').value = o.notas || '';
+            new bootstrap.Modal(document.getElementById('editOrderModal')).show();
+        }
+
+        // Auto-calculo en modal edición
+        document.getElementById('editOrdProducto').addEventListener('change', function () {
+            const prod = getProductById(this.value);
+            document.getElementById('editOrdPrecio').value = prod ? prod.precio_venta : '';
+            recalcTotal('editOrdPrecio', 'editOrdCantidad', 'editOrdTotal');
+        });
+        document.getElementById('editOrdCantidad').addEventListener('input', () =>
+            recalcTotal('editOrdPrecio', 'editOrdCantidad', 'editOrdTotal')
+        );
+
+        // ── Submit formulario nuevo ──────────────────────────────────────────
+        document.getElementById('orderForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const clienteId = parseInt(document.getElementById('ordCliente').value);
+            const productoId = parseInt(document.getElementById('ordProducto').value);
+            const cantidad = parseInt(document.getElementById('ordCantidad').value);
+            const precio = parseFloat(document.getElementById('ordPrecio').value);
+            const fecha = document.getElementById('ordFecha').value;
+            if (!clienteId || !productoId || !cantidad || !precio || !fecha) {
+                alert('Complete todos los campos obligatorios'); return;
+            }
+            addOrder({
+                cliente_id: clienteId,
+                producto_id: productoId,
+                cantidad,
+                precio_unitario: precio,
+                total: precio * cantidad,
+                fecha,
+                estado: document.getElementById('ordEstado').value,
+                notas: document.getElementById('ordNotas').value.trim()
+            });
+            document.getElementById('orderForm').reset();
+            document.getElementById('ordTotal').value = '';
+            setTodayDate();
+        });
+
+        document.getElementById('resetOrderBtn').addEventListener('click', () => {
+            document.getElementById('orderForm').reset();
+            document.getElementById('ordTotal').value = '';
+            setTodayDate();
+        });
+
+        // ── Submit modal edición ─────────────────────────────────────────────
+        document.getElementById('confirmEditOrder').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editOrdId').value);
+            const clienteId = parseInt(document.getElementById('editOrdCliente').value);
+            const productoId = parseInt(document.getElementById('editOrdProducto').value);
+            const cantidad = parseInt(document.getElementById('editOrdCantidad').value);
+            const precio = parseFloat(document.getElementById('editOrdPrecio').value);
+            const fecha = document.getElementById('editOrdFecha').value;
+            if (!clienteId || !productoId || !cantidad || !precio || !fecha) {
+                alert('Datos inválidos'); return;
+            }
+            updateOrder({
+                id, cliente_id: clienteId, producto_id: productoId,
+                cantidad, precio_unitario: precio, total: precio * cantidad,
+                fecha,
+                estado: document.getElementById('editOrdEstado').value,
+                notas: document.getElementById('editOrdNotas').value.trim()
+            });
+            bootstrap.Modal.getInstance(document.getElementById('editOrderModal')).hide();
+        });
+
+        // ── Búsqueda / filtros ───────────────────────────────────────────────
+        document.getElementById('searchOrderInput').addEventListener('input', () => renderOrderTable());
+        document.getElementById('filterEstado').addEventListener('change', () => renderOrderTable());
+
+        // ── Fecha de hoy por defecto ─────────────────────────────────────────
+        function setTodayDate() {
+            document.getElementById('ordFecha').value = new Date().toISOString().split('T')[0];
+        }
+
+        // ── Init ─────────────────────────────────────────────────────────────
+        loadAll();
+        fillSelects('ordCliente', 'ordProducto');
+        setTodayDate();
+        renderOrderTable();
+    </script>
+</body>
+
+</html>
